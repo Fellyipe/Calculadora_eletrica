@@ -1,0 +1,207 @@
+h1 {
+	color: goldenrod;
+	animation: eletrica 1700ms infinite ease-in-out;
+	text-shadow: 0 0 6px DarkOrange;
+	font-family: Monaco, monospace;
+	}
+
+@keyframes eletrica {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 1;
+	}
+	60% {
+		opacity: 0.5;
+	}
+	65% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+div{
+	font-family: "Leelawadee UI", Verdana, Tahoma, Arial;
+	text-align: center;
+}
+
+.escondida{
+	text-align: left;
+}
+
+.nohub {
+	background: linear-gradient(to bottom, firebrick, goldenrod, firebrick);
+	border: 2px solid firebrick;
+	color: darkmagenta;
+	padding: 12px 28px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	width: 400px;
+	cursor: pointer;
+	transition-duration: 0.4s;
+	font-weight: bold;
+}
+
+body {
+	background: linear-gradient(to left, darkslateblue, navy, purple, navy, darkslateblue);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+	margin: 0;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 150% 150%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.listaTipoRes {
+	clear: both;
+	width: 100%;
+	height: 0px;
+	overflow: hidden;
+	text-align: center;
+	transition: height .4s ease;
+}
+
+.drop:checked + .listaTipoRes {height: 600px;}
+
+.nohub:hover {
+	border-color: burlywood;
+	color: burlywood;
+}
+
+#hub{
+	overflow: hidden;
+  	background-color: #333;
+  	position: absolute;
+  	top: 0;
+  	width: 100%;
+  	height: auto;
+}
+
+#main {
+  	margin-top: 30px;
+  	height: 700px;
+  	width: 70%;
+  	color: lightgoldenrodyellow;
+  	margin: auto;	
+}
+
+#indiv{
+	text-decoration: underline;
+	color: burlywood;
+	text-decoration-color: chartreuse;
+	font-family: consolas;
+}
+
+.hub{
+	background: none;
+	border: none;
+	float: left;
+	display: block;
+  	color: #f2f2f2;
+  	text-align: center;
+  	padding: 14px 16px;
+  	text-decoration: none;
+  	font-size: 17px;
+  	cursor: pointer;
+  	transition-duration: 0.4s;
+}
+
+.hub:hover{
+	color: goldenrod;
+}
+
+input[type=text]{
+	background: none;
+	border: none;
+	border-bottom: 2px solid yellow;
+	width: 50px;
+	outline: none;
+	color: lemonchiffon;
+	font-weight: bold;
+}
+
+.drop{
+	position: absolute;
+	opacity: 0;
+}
+
+.labeldrop{
+	padding: 3px;
+	background: linear-gradient(to left, darkslateblue, navy, purple, navy, darkslateblue);
+	cursor: pointer;
+	font-size: 20px;
+	color: darkgoldenrod;
+	font-variant: small-caps;	
+}
+
+h2{
+	margin: 0px;
+	font-family: Consolas;
+	font-variant: small-caps;
+	text-shadow: 0 0 6px antiquewhite;
+	font-size: 60px;
+}
+
+#resulRes{
+	font-size: 30px;
+	animation: eletrica 1700ms infinite ease-in-out;
+	color: gold;
+}
+
+table, th, td {
+	border: 1px solid cadetblue;
+}
+
+tr:hover{
+	background-color: peru;
+}
+
+td:hover{
+	color: cyan
+}
+
+[type=radio] { 
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+[type=radio] + img {
+	cursor: pointer;
+}
+
+[type=radio]:checked + img {
+	border-color: cornflowerblue;
+}
+
+img{
+	width: 30%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto; 
+	margin-top: 10px;
+	border: 2px solid indigo;
+	border-radius: 4px;
+	padding: 5px;
+}
+
+#eqdiv{
+	font-size: 25px;
+	color: mediumaquamarine;
+}

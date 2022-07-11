@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Calculadora elétrica</title>
+		<link rel="stylesheet" type="text/css" href="calc_ele_estilo.css">
+		<style>
+		</style>
+		
+	</head>
+	<body>
+		<div id="hub">
+			<button class="hub" id="inicio" onclick="inicio()">INÍCIO</button>
+			<button class="hub" id="re" onclick="resistenciaEquiv()">RESISTÊNCIA EQUIVALENTE</button>
+      		<button class="hub" id="pa" onclick="parciais()">CORRENTES, TENSÕES E POTÊNCIAS PARCIAS</button>
+      		<button class="hub" id="equacoes" onclick="equacoes()">EQUAÇÕES UTILIZADAS</button>
+      	</div>
+
+      	<br><br>
+	      	
+		<div id="main">
+			<h1 align=center id="titulo">Calculadora Elétrica &#9889;</h1>
+
+	      	<div id="indiv">
+	      		<p>Este projeto foi desenvolvido em conjunto por um grupo de estudantes como um trabalho acadêmico</p>
+	      		<p>Foi utilizado conhecimentos básicos em desenvolvimento <em>web</em> (HTML, JavaScript e CSS) a fim de trazer uma "Calculadora Elétrica" funcional e não convencional</p>
+	      	</div>
+
+			<script>
+
+				window.onbeforeunload = function () {
+					window.scrollTo(0, 0);
+				}
+
+				function inicio() {
+					const indiv = document.getElementById("indiv")
+					indiv.hidden = false
+					rediv.hidden = true
+					padiv.hidden = true
+					eqdiv.hidden = true
+				}
+
+				function resistenciaEquiv() {
+					const rediv = document.getElementById("rediv")
+	                rediv.hidden = false
+	                indiv.hidden = true
+	                padiv.hidden = true
+	                eqdiv.hidden = true
+				}
+
+				function equacoes() {
+					const eqdiv = document.getElementById("eqdiv")
+					eqdiv.hidden = false
+					indiv.hidden = true
+					rediv.hidden = true
+					padiv.hidden = true
+				}
+
+				function calcularRes() {
+					
+					var perm = true
+
+					const resRes = document.getElementById("resulRes")
+					resRes.innerHTML = ""
+
+					var r1 = parseFloat(document.getElementById("r1").value)
+					console.log(r1)
+					var r2 = parseFloat(document.getElementById("r2").value)
+					console.log(r2)
+					var r3 = parseFloat(document.getElementById("r3").value)
+					console.log(r3)
+					var tipol = document.getElementsByName("tipor")
+					var tipo
+
+					for(let i of tipol) {
+						if (i.checked) {
+							tipo = i.id	
+						}
+					}
+
+					console.log(tipo)
+
+
+					if (r1%1!=0 || r2%1!=0 || r3%1!=0) {
+
+						alert("Digite apenas números inteiros")
+
+						perm = false
+
+					}
+					if (r1 <= 0 || r2 <= 0 || r3 <= 0) {
+
+						alert("Digite valores maiores que 0")
+
+						perm = false
+
+					}
+
+					if (r1 > 10000 || r2 > 10000 || r3 > 10000) {
+
+						alert("O Valor máximo para os resistores é de 10 k\u03A9")
+
+						perm = false
+
+					}
+
+					if (r1 == "" || r2 == "" ||  r3 == "") {
+
+						alert("São necessários 3 resistores")
+
+						perm = false
+
+					} if (tipo == undefined) {
+
+						alert("Escolha um tipo de associação")
+
+						perm = false
+
+					}
+
+					if (perm) {
+						resultado = calculoR(r1, r2, r3, tipo)
+
+						if (resultado >= 1000) {
+
+							resultado = (resultado/1000).toFixed(2) + "k"
+
+						} else {
+							resultado = resultado.toFixed(2)
+						}
+					
+						resRes.innerHTML = 'A equivalência é de <b>' + resultado + '\u03A9</b><br>' 
+						resRes.hidden = false
+
+						console.log("A equivalência é de " + resultado + "\u03A9")
+						console.log("OBS: O resultado é arrendondado até 2 (duas) casas decimais")
+					}
+				}
+
+				function calculoR(res1, res2, res3, tipoRes) {
+
+						if (tipoRes == "tipor1" || tipoRes == "tipop1") {
+							var result = res1 + res2 + res3
+							return result
+						}
+
+						if (tipoRes == "tipor2" || tipoRes == "tipop2") {
+							var result = 1/(1/res1 + 1/res2 + 1/res3)
+							return result
+						}
+
+						if (tipoRes == "tipor3" || tipoRes == "tipop3") {
+							var result = res1 + (res2*res3)/(res2+res3)
+							return result
+						}
+
+						if (tipoRes == "tipor4" || tipoRes == "tipop4") {
+							var result = ((res1+res2)*res3)/(res1+res2+res3)
+							return result
+						}
+					}
+
+				function parciais() {
+					const padiv = document.getElementById("padiv")
+					padiv.hidden = false
+					indiv.hidden = true
+					rediv.hidden = true
+					eqdiv.hidden = true
+				}
+
+				function calcularPar() {
+
+					var perm = true
+
+					const resPar = document.getElementById("resulPar")
+
+					var r1 = parseFloat(document.getElementById("r1p").value)
+					console.log(r1)
+					var r2 = parseFloat(document.getElementById("r2p").value)
+					console.log(r2)
+					var r3 = parseFloat(document.getElementById("r3p").value)
+					console.log(r3)
+					
+					var tipol = document.getElementsByName("tipop")
+					var tipo
+
+					var tensao = parseInt(document.getElementById("tens").value)
+					console.log(tensao)
+
+					for(let i of tipol) {
+						if (i.checked) {
+							tipo = i.id	
+						}
+					}
+
+					console.log(tipo)
+
+					if (r1%1!=0 || r2%1!=0 || r3%1!=0 || tensao%1!=0) {
+						alert("Digite apenas números inteiros")
+						perm = false
+					}
+					if (r1 <= 0 || r2 <= 0 || r3 <= 0 || tensao <= 0) {
+						alert("Digite valores maiores que 0")
+						perm = false
+					}
+
+					if (r1 > 10000 || r2 > 10000 || r3 > 10000) {
+						alert("Digite valores menores que 10 quilo-omhs")
+						perm = false
+					}
+
+					if (r1 == "" || r2 == "" || r3 == "") {
+						alert("São necessários 3 resistores")
+						perm = false
+					} 
+
+					if (tensao > 12) {
+						alert("O valor máximo para a tensão é de 12 volts")
+						perm = false
+					}
+
+					if (tensao == "") {
+						alert("Digite um valor para a tensão")
+						perm = false
+					}
+
+					if (tipo == undefined) {
+						alert("Escolha um tipo de associação")
+						perm = false
+					}
+
+					if (perm) {
+						resultado = calculoR(r1, r2, r3, tipo)
+						
+						if (resultado >= 1000) {
+						var resultadoEdi = (resultado/1000).toFixed(2) + "k"
+						} else {
+						var resultadoEdi = resultado.toFixed(2)
+						}
+
+						resPar.hidden = false
+
+						const reseq = document.getElementById("reseq")
+						reseq.innerHTML = 'Resistência equivalente: ' + resultadoEdi + '\u03A9' 
+
+						console.log("Resistência equivalente: " + resultadoEdi + "\u03A9")
+						calculoP(r1, r2, r3, tipo, tensao, resultado)
+					}
+				}
+
+					function calculoP(res1, res2, res3, tipoRes, tensao, resEqu) {
+					 	
+						const coreq = document.getElementById("coreq")
+						const poteq = document.getElementById("poteq")
+						const ip1 = document.getElementById("ip1")
+						const ip2 = document.getElementById("ip2")
+						const ip3 = document.getElementById("ip3")
+						const tp1 = document.getElementById("tp1")
+						const tp2 = document.getElementById("tp2")
+						const tp3 = document.getElementById("tp3")
+						const pp1 = document.getElementById("pp1")
+						const pp2 = document.getElementById("pp2")
+						const pp3 = document.getElementById("pp3")
+
+						var corEqu = tensao/resEqu
+						var potEqu = corEqu*tensao
+						coreq.innerHTML = 'A Corrente equivalente é: ' + notacao(corEqu) + 'A'
+						poteq.innerHTML = 'A potência dissipada total é: ' + notacao(potEqu) + 'W'
+						var i1
+						var i2
+						var i3
+						var t1
+						var t2
+						var t3
+						var p1
+						var p2
+						var p3
+						var irest
+						var trest
+						var iEp = []
+
+						if (tipoRes == "tipop1") {
+							i1 = corEqu
+							i2 = corEqu
+							i3 = corEqu
+							t1 = corEqu*res1
+							t2 = corEqu*res2
+							t3 = corEqu*res3
+							p1 = corEqu*t1
+							p2 = corEqu*t2
+							p3 = corEqu*t3
+						}
+
+						if (tipoRes == "tipop2") {
+							t1 = tensao
+							t2 = tensao
+							t3 = tensao
+							i1 = tensao/res1
+							i2 = tensao/res2
+							i3 = tensao/res3
+							p1 = tensao*i1
+							p2 = tensao*i2
+							p3 = tensao*i3
+						}
+
+						if (tipoRes == "tipop3") {
+							i1 = corEqu
+							t1 = corEqu*res1
+							trest = tensao-t1
+							t2 = trest
+							t3 = trest
+							i2 = t2/res2
+							i3 = t3/res3
+							p1 = t1*i1
+							p2 = t2*i2
+							p3 = t3*i3
+						}
+
+						if (tipoRes == "tipop4") {
+							t3 = tensao
+							i3 = tensao/res3
+							irest = corEqu-i3
+							i1 = irest
+							i2 = irest
+							t1 = i1*res1
+							t2 = i2*res2
+							p1 = i1*t1
+							p2 = i2*t2
+							p3 = i3*t3
+						}
+
+						iEp.push(i1, i2, i3, p1, p2, p3)
+						for (var i = 0; i < 6; i++) {
+							iEp[i] = notacao(iEp[i])
+						}
+
+						ip1.innerHTML = 'Corrente parcial do primeiro resistor: ' + iEp[0] + 'A'
+						ip2.innerHTML = 'Corrente parcial do segundo resistor: ' + iEp[1] + 'A'
+						ip3.innerHTML = 'Corrente parcial do terceiro resistor: ' + iEp[2] + 'A'
+						tp1.innerHTML = 'Tensão parcial do primeiro resistor: ' + t1.toFixed(2) + 'V'
+						tp2.innerHTML = 'Tensão parcial do segundo resistor: ' + t2.toFixed(2) + 'V'
+						tp3.innerHTML = 'Tensão parcial do terceiro resistor: ' + t3.toFixed(2) + 'V'
+						pp1.innerHTML = 'Potência parcial dissipada pelo primeiro resistor: ' + iEp[3] + 'W'
+						pp2.innerHTML = 'Potência parcial dissipada pelo segundo resistor: ' + iEp[4] + 'W'
+						pp3.innerHTML = 'Potência parcial dissipada pelo terceiro resistor: ' + iEp[5] + 'W'
+					 }
+
+					function notacao(valor) {
+						if (valor < 0.00001) {
+							valor = (valor * 1000000).toFixed(2) + "\u03BC"
+						} else if (valor < 0.01) {
+							valor = (valor * 1000).toFixed(2) + "m"
+						} else {
+							valor = valor.toFixed(2)
+						}
+						return valor
+					}
+
+			</script>
+			
+			<div hidden id="rediv">
+				<h2>RESISTÊNCIA EQUIVALENTE</h2>
+				<br>
+				<label for="drop1" class="labeldrop"><strong>TIPO DE ASSOCIAÇÃO DOS RESISTORES &#9207;</strong></label>
+				<input type="checkbox" class="drop" autocomplete="off" id="drop1"></input>
+
+				<form class="listaTipoRes">
+					
+					<label for="tipor1">
+						<input type="radio" id="tipor1" name="tipor" autocomplete="off">
+						<img src="tipo_serie.png">
+					</label>
+					<br>
+					<label for="tipor2">
+						<input type="radio" id="tipor2" name="tipor" autocomplete="off">
+						<img src="tipo_paralelo.png">
+					</label>
+					<br>
+					<label for="tipor3">
+						<input type="radio" id="tipor3" name="tipor" autocomplete="off">
+						<img src="tipo_misto1.png">
+					</label>
+					<br>
+					<label for="tipor4">
+						<input type="radio" id="tipor4" name="tipor" autocomplete="off">
+						<img src="tipo_misto2.png">
+					</label>
+					
+				</form>
+				
+				<p>Insira os valores das resistências (em &Omega;)</p>
+	            <form>
+	            <label for="r1">Primeiro Resistor:</label>
+	            <input type="text" id="r1" placeholder="&Omega;" autocomplete="off"><br>
+	            <label for="r2">Segundo Resistor:</label>
+	            <input type="text" id="r2" placeholder="&Omega;" autocomplete="off"><br>
+	            <label for="r3">Terceiro Resistor:</label>
+	            <input type="text" id="r3" placeholder="&Omega;" autocomplete="off"><br>
+	            </form>
+	            <br>
+	            <button class="nohub" id="calcularr" onclick="calcularRes()">Calcular</button>
+	            <br>
+	            <p id="resulRes" hidden></p>
+	            <br>
+			</div>
+
+			<div hidden id="padiv">
+				<h2>PARCIAIS</h2>
+				<br>
+				<label for="drop2" class="labeldrop"><strong>TIPO DE ASSOCIAÇÃO DOS RESISTORES &#9207;</strong></label>
+				<input type="checkbox" class="drop" autocomplete="off" id="drop2"></input>
+
+				<form class="listaTipoRes">
+					
+					<label for="tipop1">
+						<input type="radio" id="tipop1" name="tipop" autocomplete="off">
+						<img src="tipo_serie.png">
+					</label>
+					<br>
+					<label for="tipop2">
+						<input type="radio" id="tipop2" name="tipop" autocomplete="off">
+						<img src="tipo_paralelo.png">
+					</label>
+					<br>
+					<label for="tipop3">
+						<input type="radio" id="tipop3" name="tipop" autocomplete="off">
+						<img src="tipo_misto1.png">
+					</label>
+					<br>
+					<label for="tipop4">
+						<input type="radio" id="tipop4" name="tipop" autocomplete="off">
+						<img src="tipo_misto2.png">
+					</label>
+					
+				</form>
+
+				<p>Insira os valores das resistências (em &Omega;) e da fonte da tensão elétrica</p>
+	            <form>
+	            <label for="r1">Primeiro Resistor:</label>
+	            <input type="text" id="r1p" placeholder="&Omega;" autocomplete="off"><br>
+	            <label for="r2">Segundo Resistor:</label>
+	            <input type="text" id="r2p" placeholder="&Omega;" autocomplete="off"><br>
+	            <label for="r3">Terceiro Resistor:</label>
+	            <input type="text" id="r3p" placeholder="&Omega;" autocomplete="off"><br>
+	            <label for="tens">Tensão Elétrica:</label>
+	            <input type="text" id="tens" placeholder="U" autocomplete="off">
+	            </form>
+	            
+	            <br>
+
+	            <button class="nohub" id="calcularp" onclick="calcularPar()">Calcular</button>
+
+	            <br><br>
+
+	            <table id="resulPar" hidden>
+					<tr>
+						<th>Valores totais</th>
+						<th>Correntes</th>
+						<th>Tensões</th>
+						<th>Potências dissipadas</th>
+					</tr>
+					<tr>
+						<td id="reseq"></td>
+						<td id="ip1"></td>
+						<td id="tp1"></td>
+						<td id="pp1"></td>
+					</tr>
+					<tr>
+						<td id="coreq"></td>
+						<td id="ip2"></td>
+						<td id="tp2"></td>
+						<td id="pp2"></td>
+					</tr>
+					<tr>
+						<td id="poteq"></td>
+						<td id="ip3"></td>
+						<td id="tp3"></td>
+						<td id="pp3"></td>
+					</tr>
+				</table> 
+				<br>
+			</div>
+
+	        <div id="eqdiv" hidden>
+
+	        	<p style="font-size:16px; color:aliceblue;">Cada índice representa o resistor de mesmo índice, por exemplo, <math><msub><mi>i</mi><mn>1</mn></msub></math> representa a corrente elétrica que passa pelo resistor <math><msub><mi>R</mi><mn>1</mn></msub></math><br>
+	        	Os subscritos "eq" representam a equivalência total da grandeza no sistema</p>
+	        	<p><math>
+	        		<mi>R</mi><mo>&#8901;</mo><mi>i</mi><mo>=</mo><mi>U</mi>
+	        	</math></p>
+	        	<p><math>
+	        		<mi>P</mi><mo>=</mo><mi>i<mo>&#8901</mo><mi>U</mi>
+	        	</math></p>
+	            <p><img src="tipo_serie.png"></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>R</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>R</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>R</mi><mn>2</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>R</mi><mn>3</mn>
+	            	</msub>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>i</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>2</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>3</mn>
+	            	</msub>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>U</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>2</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>3</mn>
+	            	</msub>
+	            </math></p>
+	            <p><img src="tipo_paralelo.png"></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>R</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<mfrac>
+	            		<mn>1</mn>
+	            		<mrow>
+		            		<mfrac>
+		            			<mn>1</mn>
+		            			<msub>
+		            				<mi>R</mi><mn>1</mn>
+		            			</msub>
+		            		</mfrac>
+		            		<mo>+</mo>
+		            		<mfrac>
+		            			<mn>1</mn>
+		            			<msub>
+		            				<mi>R</mi><mn>2</mn>
+		            			</msub>
+		            		</mfrac>
+		            		<mo>+</mo>
+		            		<mfrac>
+		            			<mn>1</mn>
+		            			<msub>
+		            				<mi>R</mi><mn>3</mn>
+		            			</msub>
+		            		</mfrac>
+		            	</mrow>
+	            	</mfrac>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>i</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>2</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>3</mn>
+	            	</msub>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>U</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>2</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>3</mn>
+	            	</msub>
+	            </math></p>
+	            <p><img src="tipo_misto1.png"></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>R</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>R</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<mfrac>
+	            		<mrow>
+	            			<msub>
+	            				<mi>R</mi><mn>2</mn>
+	            			</msub>
+	            			<mo>&#8901;</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>3</mn>
+	            			</msub>
+	            		</mrow>
+	            		<mrow>
+	            			<msub>
+	            				<mi>R</mi><mn>2</mn>
+	            			</msub>
+	            			<mo>+</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>3</mn>
+	            			</msub>
+	            		</mrow>
+	            	</mfrac>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>i</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>2</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>3</mn>
+	            	</msub>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>U</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>-</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>2</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>3</mn>
+	            	</msub>
+	            </math></p>
+	            <p><img src="tipo_misto2.png"></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>R</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<mfrac>
+	            		<mrow>
+	            			<mo>(</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>1</mn>
+	            			</msub>
+	            			<mo>+</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>2</mn>
+	            			</msub>
+	            			<mo>)</mo>
+	            			<mo>&#8901;</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>3</mn>
+	            			</msub>
+	            		</mrow>
+	            		<mrow>
+	            			<mo>(</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>1</mn>
+	            			</msub>
+	            			<mo>+</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>2</mn>
+	            			</msub>
+	            			<mo>)</mo>
+	            			<mo>+</mo>
+	            			<msub>
+	            				<mi>R</mi><mn>3</mn>
+	            			</msub>
+	            		</mrow>
+	            	</mfrac>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>i</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>-</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>3</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>i</mi><mn>2</mn>
+	            	</msub>
+	            </math></p>
+	            </math></p>
+	            <p><math>
+	            	<msub>
+	            		<mi>U</mi><mi>eq</mi>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>3</mn>
+	            	</msub>
+	            	<mo>=</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>1</mn>
+	            	</msub>
+	            	<mo>+</mo>
+	            	<msub>
+	            		<mi>U</mi><mn>2</mn>
+	            	</msub>
+	            </math></p>
+	            <br>
+	            <p style="font-size:20px; color: aliceblue;">OBS: Os valores calculados são arrendondados até duas casas decimais significativas</p>
+			</div>
+
+		</div>
+	</body>
+</html>
